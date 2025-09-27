@@ -89,6 +89,11 @@ fi
 systemctl restart catalogue
 VALIDATE $? "Restarted catalogue"
 
+END_TIME=$(date +%s)
+TOTAL_TIME=$(( $END_TIME - $START_TIME ))
+
+echo -e " $B script executed in $TOTAL_TIME seconds $N"
+
 
     
 

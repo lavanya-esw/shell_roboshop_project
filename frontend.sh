@@ -51,4 +51,9 @@ VALIDATE $? "Copying nginx.conf"
 systemctl restart nginx 
 VALIDATE $? "Restarting Nginx"
 
+END_TIME=$(date +%s)
+TOTAL_TIME=$(( $END_TIME - $START_TIME ))
+
+echo -e " $B script executed in $TOTAL_TIME seconds $N"
+
 
