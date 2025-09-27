@@ -50,7 +50,7 @@ VALIDATE $? "Allowing remote connections to MongoDB"
 systemctl restart mongod
 VALIDATE $? "start mongodb"
 
-END_TIME=$(date +s)
+END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
 
 echo "script executed in $TOTAL_TIME seconds"
