@@ -35,7 +35,7 @@ VALIDATE $? "Copy systemctl service"
 
 dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "disable nodejs"
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>>$LOG_FILE
 VALIDATE $? "enable nodejs"
 dnf install nodejs -y &>>$LOG_FILE
 VALIDATE $? "install nodejs"
