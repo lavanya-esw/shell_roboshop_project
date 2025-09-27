@@ -80,7 +80,7 @@ VALIDATE $? "Install MongoDB client"
 
 
 INDEX=$(mongosh mongodb.daws86s.fun --quiet --eval "db.getMongo().getDBNames().indexOf('catalogue')")
-if [ $INDEX -le 0 ]; then
+if [ $INDEX -ne 0 ]; then
     mongosh --host $MONGODB_SERVER_IPADDRESS </app/db/master-data.js &>>$LOG_FILE
     VALIDATE $? "Load catalogue products"
 else
