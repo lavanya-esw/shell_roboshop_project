@@ -23,14 +23,14 @@ VALIDATE()
     if [ $1 -ne 0 ]; then
         echo -e "$2...$R FAILURE $N"
     else
-        echo -e "$2...$R SUCCESS $N"
+        echo -e "$2...$G SUCCESS $N"
     fi
 }
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding mongo repo"
 
-dnf list installed mongod
+dnf list installed | grep mongodb
 if [ $? -ne 0 ]; then
     dnf install mongodb-org -y 
     VALIDATE $? "install mongodb"
@@ -51,7 +51,8 @@ systemctl restart mongod
 VALIDATE $? "start mongodb"
 
 END_TIME=$(date +s)
+TOTAL_TIME=$(($START_TIME-$END_TIME))
 
-echo "script executed in $(($START_TIME-$END_TIME)) seconds"
+echo "script executed in $TOTAL_TIME seconds"
 
 
