@@ -33,7 +33,7 @@ VALIDATE()
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copy systemctl service"
 
-dnf module disable nodejs -y &>>$LOG_DIR
+dnf module disable nodejs -y &>>$LOG_FILE
 VALIDATE $? "disable nodejs"
 dnf module enable nodejs:20 -y
 VALIDATE $? "enable nodejs"
@@ -43,6 +43,7 @@ VALIDATE $? "install nodejs"
 
 id roboshop
 if [ $? -ne 0 ]; then
+   echo "creating roboshop user"
     useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
     VALIDATE $? "Creating system user"
 else
@@ -50,10 +51,10 @@ else
 fi    
 
 mkdir -p /app 
-VALIDATE $1 "create app folder"
+VALIDATE $? "create app folder"
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
-VALIDATE $1 "Downloading catalogue application"
+VALIDATE $? "Downloading catalogue application"
 
 cd /app 
 VALIDATE $? "Changing to app directory"
