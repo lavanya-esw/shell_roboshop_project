@@ -7,6 +7,7 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[37m"
 
+
 SCRIPT_DIR=$PWD
 
 START_TIME=$(date +%s)
@@ -20,9 +21,9 @@ fi
 VALIDATE()
 {
     if [ $1 -ne 0 ]; then
-        echo "$2...$R FAILURE $N"
+        echo -e "$2...$R FAILURE $N"
     else
-        echo "$2...$R SUCCESS $N"
+        echo -e "$2...$R SUCCESS $N"
     fi
 }
 
@@ -43,7 +44,7 @@ VALIDATE $? "enabling mongodb"
 systemctl start mongod 
 VALIDATE $? "starting mongodb"
 
-sed -i 's/127.0.0.1/0.0.0.0' /etc/mongod.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 VALIDATE $? "Allowing remote connections to MongoDB"
 
 systemctl restart mongod
@@ -51,6 +52,6 @@ VALIDATE $? "start mongodb"
 
 END_TIME=$(date +s)
 
-echo "script executed in ((${START_TIME}-${END_TIME})) seconds"
+echo "script executed in $(($START_TIME-$END_TIME)) seconds"
 
 
