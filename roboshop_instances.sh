@@ -20,6 +20,8 @@ for INSTANCE in $@; do
     fi
     
     echo " $INSTANCE : $INSTANCE_ID : $IP"
+
+    # creating and updating records if already created 
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '
