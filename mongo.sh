@@ -30,7 +30,7 @@ VALIDATE()
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding mongo repo"
 
-dnf list installed | grep mongodb
+dnf list installed mongodb
 if [ $? -ne 0 ]; then
     dnf install mongodb-org -y 
     VALIDATE $? "install mongodb"
@@ -51,7 +51,7 @@ systemctl restart mongod
 VALIDATE $? "start mongodb"
 
 END_TIME=$(date +s)
-TOTAL_TIME=$(( $START_TIME - $END_TIME ))
+TOTAL_TIME=$(( $END_TIME - $START_TIME ))
 
 echo "script executed in $TOTAL_TIME seconds"
 
