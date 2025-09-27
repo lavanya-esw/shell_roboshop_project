@@ -23,6 +23,7 @@ VALIDATE()
         echo "$2...$R FAILURE $N"
     else
         echo "$2...$R SUCCESS $N"
+    fi
 }
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
