@@ -2,6 +2,8 @@
 
 AMI_ID="ami-09c813fb71547fc4f"
 SG_ID="sg-0dfa2ec6d3272ffeb"
+DOMAIN_NAME="awsdevops.fun"
+ZONE_ID="Z02792703IESGDED1SCJO"
 
 
 
@@ -10,13 +12,32 @@ for INSTANCE in $@; do
     if [ $INSTANCE_ID != "frontend" ]; then
         #get privateip
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PrivateIpAddress' --output text)	
+        RECORD_NAME="${INSTANCE}.${DOMAIN_NAME}"
     else 
         #get publicip
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+        RECORD_NAME="${DOMAIN_NAME}"
     fi
     
-    echo "$INSTANCE_ID"
-    echo "$IP"
+    echo " $INSTANCE : $INSTANCE_ID : $IP"
+    aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Updating record set"
+        ,"Changes": [{
+        "Action"              : "UPSERT"
+        ,"ResourceRecordSet"  : {
+            "Name"              : "'$RECORD_NAME'"
+            ,"Type"             : "A"
+            ,"TTL"              : 1
+            ,"ResourceRecords"  : [{
+                "Value"         : "'$IP'"
+            }]
+        }
+        }]
+    }
+    '
 done
 
 
