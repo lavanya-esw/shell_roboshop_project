@@ -14,7 +14,7 @@ LOG_DIR=/var/log/shell_roboshop_project
 
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE=${LOG_DIR}/${SCRIPT_NAME}.log
-mkdir -p $LOGS_FOLDER
+mkdir -p $LOG_DIR
 #To check root user or not
 ROOT_USER=$(id -u)
 if [ $ROOT_USER -ne 0 ]; then
