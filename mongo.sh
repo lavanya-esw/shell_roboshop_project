@@ -9,8 +9,11 @@ N="\e[37m"
 
 
 SCRIPT_DIR=$PWD
-
 START_TIME=$(date +%s)
+LOG_DIR=/var/log/shell_roboshop_project
+SCRIPT_NAME=$(echo $0 | cut -d "." -fl)
+LOG_FILE=${LOG_DIR}/${SCRIPT_NAME}.log
+mkdir -p $LOGS_FOLDER
 #To check root user or not
 ROOT_USER=$(id -u)
 if [ $ROOT_USER -ne 0 ]; then
@@ -30,15 +33,15 @@ VALIDATE()
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding mongo repo"
 
-dnf list installed mongodb
+dnf list installed | grep momgodb $>>$LOG_FILE
 if [ $? -ne 0 ]; then
-    dnf install mongodb-org -y 
+    dnf install mongodb-org -y &>>$LOG_FILE
     VALIDATE $? "install mongodb"
 else
     echo -e "Mongodb already installed....$Y SKIPPING $N"
 fi
 
-systemctl enable mongod 
+systemctl enable mongod &>>$LOG_FILE
 VALIDATE $? "enabling mongodb"
 
 systemctl start mongod 
@@ -53,6 +56,6 @@ VALIDATE $? "start mongodb"
 END_TIME=$(date +%s)
 TOTAL_TIME=$(( $END_TIME - $START_TIME ))
 
-echo "script executed in $TOTAL_TIME seconds"
+echo -e " $B script executed in $TOTAL_TIME seconds $N"
 
 
