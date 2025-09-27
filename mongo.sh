@@ -11,7 +11,8 @@ N="\e[37m"
 SCRIPT_DIR=$PWD
 START_TIME=$(date +%s)
 LOG_DIR=/var/log/shell_roboshop_project
-SCRIPT_NAME=$(echo $0 | cut -d "." -fl)
+
+SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE=${LOG_DIR}/${SCRIPT_NAME}.log
 mkdir -p $LOGS_FOLDER
 #To check root user or not
