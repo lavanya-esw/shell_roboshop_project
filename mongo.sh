@@ -1,20 +1,18 @@
 #!/bin/bash
 
 #colour codes
-
 R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[37m"
 
-
 SCRIPT_DIR=$PWD
 START_TIME=$(date +%s)
 LOG_DIR=/var/log/shell_roboshop_project
-
 SCRIPT_NAME=$( echo $0 | cut -d "." -f1 )
 LOG_FILE=${LOG_DIR}/${SCRIPT_NAME}.log
 mkdir -p $LOG_DIR
+
 #To check root user or not
 ROOT_USER=$(id -u)
 if [ $ROOT_USER -ne 0 ]; then
@@ -34,7 +32,7 @@ VALIDATE()
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding mongo repo"
 
-dnf list installed | grep momgodb $>>$LOG_FILE
+dnf list installed | grep mongodb $>>$LOG_FILE
 if [ $? -ne 0 ]; then
     dnf install mongodb-org -y &>>$LOG_FILE
     VALIDATE $? "install mongodb"
