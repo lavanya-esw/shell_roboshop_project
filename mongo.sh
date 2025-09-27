@@ -5,6 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[37m"
+B="\e[34m"
 
 SCRIPT_DIR=$PWD
 START_TIME=$(date +%s)
@@ -32,7 +33,7 @@ VALIDATE()
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Adding mongo repo"
 
-dnf list installed | grep mongodb $>>$LOG_FILE
+dnf list installed | grep mongodb &>>$LOG_FILE
 if [ $? -ne 0 ]; then
     dnf install mongodb-org -y &>>$LOG_FILE
     VALIDATE $? "install mongodb"
