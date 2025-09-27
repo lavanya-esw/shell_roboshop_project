@@ -62,6 +62,9 @@ VALIDATE $? "Removing existing code"
 unzip /tmp/user.zip &>>$LOG_FILE
 VALIDATE $? "unzip user"
 
+npm install &>>$LOG_FILE
+VALIDATE $? "Install dependencies"
+
 systemctl daemon-reload
 systemctl enable user &>>$LOG_FILE
 VALIDATE $? "Enable user"
